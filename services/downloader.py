@@ -11,4 +11,4 @@ class Downloader():
   def download_video(self, url=URL):
     with YoutubeDL(self.options) as ydl:
       info = ydl.extract_info(url)
-      print(f"downloading video #{info}")
+      return info['title']
