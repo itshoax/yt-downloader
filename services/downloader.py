@@ -1,14 +1,14 @@
 from yt_dlp import YoutubeDL
 
 class Downloader():
-  URL = 'https://www.youtube.com/watch?v=YrE1Qg-Aw0Q&list=PLT98CRl2KxKGj-VKtApD8-zCqSaN2mD4w'
-  def __init__(self):
+  def __init__(self, resolution: int = 1080):
     self.options = {
-      'format': 'best',
-      'outtmpl': '/tmp/%(title)s.%(ext)s'
+        'format': f'bestvideo[height<={resolution}]+bestaudio/best[height<={resolution}]',
+        'outtmpl': '/tmp/%(title)s.%(ext)s',
+        'merge_output_format': 'mp4',
     }
 
-  def download_video(self, url=URL):
+  def download_video(self, url):
     with YoutubeDL(self.options) as ydl:
       info = ydl.extract_info(url)
       return info['title']
