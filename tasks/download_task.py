@@ -1,8 +1,9 @@
 from config.celery_config import celery_app
 from workers.download_worker import DownloadWorker
 
-@celery_app.task
-def download_video_task(url, resolution):
+@celery_app.task(bind=True)
+def download_video_task(self, url, resolution):
   worker = DownloadWorker()
-  result = worker.execute(url, resolution, {})
+  task_id = self.request.id
+  result = worker.execute(url, task_id, resolution, {})
   return result
