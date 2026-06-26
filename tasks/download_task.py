@@ -5,5 +5,7 @@ from workers.download_worker import DownloadWorker
 def download_video_task(self, url, resolution):
   worker = DownloadWorker()
   task_id = self.request.id
+  print(f"task_id is this: {task_id}")
   result = worker.execute(url, task_id, resolution, {})
-  return result
+  print(f"result is this: {result}")
+  return { 'task_id': task_id, 'status': 'downloading' }

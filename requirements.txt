@@ -4,3 +4,4 @@ yt_dlp
 celery
 celery-types
 redis
+fastmcp

@@ -3,6 +3,10 @@ from config.settings import setup_logging
 from services.video_info import VideoInfo
 from tasks import download_video_task
 from pydantic import BaseModel
+import json
+from redis import Redis
+
+r = Redis()
 
 class DownloadRequest(BaseModel):
   url: str
@@ -21,5 +25,12 @@ def show(url: str):
 @app.post('/download')
 def download(req: DownloadRequest):
   print(f"Request looks like this #{req}")
-  download_video_task.delay(req.url, req.resolution)
-  return {"message": "Download started"}
+  result = download_video_task.delay(req.url, req.resolution)
+  return {"message": "Download started", 'task_id': result.task_id }
+
+@app.get('/download_status/{task_id}')
+def download_status(task_id: str):
+  progress = r.get(f'progress:{task_id}')
+  if not progress:
+    return { 'status': 'pending' }
+  return json.loads(progress)

@@ -10,6 +10,7 @@ class Downloader():
       'format': f'bestvideo[height<={resolution}]+bestaudio/best[height<={resolution}]',
       'outtmpl': '/tmp/%(title)s.%(ext)s',
       'merge_output_format': 'mp4',
+      'progress_hooks': [self._on_progress],
     }
     self.task_id = task_id
 
@@ -20,11 +21,13 @@ class Downloader():
 
   def _on_progress(self, d):
     progress = {'status': 'finished' }
+    print(f"Inside the progress hook {d}")
     if d['status'] == 'finished':
       r.set(f'progress:{self.task_id}', json.dumps(progress))
       return
 
     if d['status'] == 'downloading':
+      print("The status is not coming here")
       progress = {
         'status': 'downloading',
         'percent': d.get('_percent_str', '0%'),
