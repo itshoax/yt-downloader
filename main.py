@@ -12,7 +12,7 @@ setup_logging()
 app = FastAPI()
 
 @app.get("/video")
-def show(url: str, resolution: int):
+def show(url: str):
   print(f"The url is {url}")
   video_info = VideoInfo()
   result = video_info.get_info(url)

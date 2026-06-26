@@ -7,9 +7,9 @@ r = Redis()
 class Downloader():
   def __init__(self, task_id: int, resolution: int = 1080):
     self.options = {
-        'format': f'bestvideo[height<={resolution}]+bestaudio/best[height<={resolution}]',
-        'outtmpl': '/tmp/%(title)s.%(ext)s',
-        'merge_output_format': 'mp4',
+      'format': f'bestvideo[height<={resolution}]+bestaudio/best[height<={resolution}]',
+      'outtmpl': '/tmp/%(title)s.%(ext)s',
+      'merge_output_format': 'mp4',
     }
     self.task_id = task_id
 
